@@ -1,0 +1,9 @@
+[submodule "DailyM"]
+	path = DailyM
+	url = https://huggingface.co/datasets/quanshr/DailyM
+[submodule "DailyM-SFT"]
+	path = DailyM-SFT
+	url = https://huggingface.co/datasets/quanshr/DailyM-SFT
+[submodule "Qwen-DailyM-32B-LoRA"]
+	path = Qwen-DailyM-32B-LoRA
+	url = https://huggingface.co/quanshr/Qwen-DailyM-32B-LoRA

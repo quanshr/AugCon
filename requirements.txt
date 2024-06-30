@@ -1,0 +1,17 @@
+deepspeed
+vllm
+transformers
+peft
+torch
+datasets
+openai
+tqdm
+scikit-learn
+dspy-ai
+rouge-chinese
+jieba
+tokenizers
+transformers-stream-generator
+sentencepiece
+tiktoken
+bitsandbytes
