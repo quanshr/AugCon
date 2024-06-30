@@ -126,7 +126,7 @@ After we finish appling the three essential steps on our custom corpus, we will 
 Finally, we use all generated SFT data to fine-tune the model and get the fine-tuned model. In this repository, we only provide the LoRA parameters in `Qwen-DailyM-32B-LoRA` to reduce the memory, and you can run `merge.py` to merge this adapter to the base model.
 
 
-# 🚀 Citation
+## 🚀 Citation
 
 If you find this project helpful, please consider citing the following paper:
 
