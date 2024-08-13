@@ -9,7 +9,7 @@ import os
 
 from step1_cst import context_split_tree
 from utils import gen_count
-import prompt
+import prompt_zh as prompt
 from load_data import load_data
 
 

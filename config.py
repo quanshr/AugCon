@@ -24,12 +24,12 @@ lora_config = LoraConfig(
 # dataset_path = '/home/work/workspace/project3/datasets/triviaqa'
 # dataset_path = '/home/work/workspace/project3/datasets/webglm-qa'
 
-max_length = 500  # 问题的最大粒度（从长度为500的文本中提取问题）
-min_length = 20   # 问题的最小粒度
+max_length = 500  # Maximum granularity of the problem
+min_length = 20   # Minimum granularity of the problem
 
-character_per_piece = 35 # 每35个汉字提取一组数据
+character_per_piece = 35 # Extract a set of data for every 35 characters
 
-rouge_thres = 0.7 # 判断相似度的阈值
+rouge_thres = 0.7 # Threshold for determining similarity
 
-q_temperature = 0.85 # 生成问题的温度
-a_temperature = 0.2  # 生成回复的温度
+q_temperature = 0.85 # Temperature for generating questions
+a_temperature = 0.2  # Temperature for generating responses

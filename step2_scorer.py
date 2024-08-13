@@ -103,7 +103,7 @@ def train(training_pairs):
     training_args = TrainingArguments(
         output_dir="./results",
         num_train_epochs=4,
-        per_device_train_batch_size=4, # Reduced batch size for demonstration purposes
+        per_device_train_batch_size=4,
         warmup_steps=50,
         weight_decay=0.01,
         logging_dir='./logs',

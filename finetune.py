@@ -59,7 +59,7 @@ def training(training_pairs):
         output_dir="./results/ckpts",
         num_train_epochs=4,
         learning_rate=5e-5,
-        per_device_train_batch_size=4, # Reduced batch size for demonstration purposes
+        per_device_train_batch_size=4,
         warmup_steps=50,
         weight_decay=0.01,
         save_strategy='epoch',

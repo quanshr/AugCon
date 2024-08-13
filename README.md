@@ -41,9 +41,10 @@ This is the command running on 8 GPUs. If using a different number of GPUs, the 
 ```bash
 nohup python -m vllm.entrypoints.openai.api_server \
      --model Qwen/Qwen1.5-32B-Chat \
-     --tensor-parallel-size 8 echo $! > pid.txt
+     --tensor-parallel-size 8 > vllm.log 2>&1 &
+sleep 3m # wait for the server to start
 python step1_gen_q.py
-kill $(cat pid.txt)
+pkill -9 -e -f vllm
 ```
 
 The second step is to train the scorer and filter the queries, in order to filter out some duplicate queries and retain relatively high-quality ones.
@@ -57,9 +58,10 @@ Step three, open the vllm service engine again and get the answer to the queries
 ```bash
 nohup python -m vllm.entrypoints.openai.api_server \
      --model Qwen/Qwen1.5-32B-Chat \
-     --tensor-parallel-size 8 & echo $! > pid.txt
+     --tensor-parallel-size 8 > vllm.log 2>&1 &
+sleep 3m
 python step3_gen_a.py
-kill $(cat pid.txt)
+pkill -9 -e -f vllm
 ```
 
 Alternatively, we provide a script to run all steps with one click.
@@ -86,14 +88,15 @@ The overall satisfaction scores increase steadily in both the `DailyM` test set 
 
 </details>
 
-Then, you can use the following command to infer and generate the responses to the queries in the `DailyM` test set.
+Then, you can use the following command to infer and generate the responses to the queries in the `DailyM` test set. For some old versions, you may need to manually copy the tokenizer files from the base model to `results/sft_model` first.
 
 ```bash
 nohup python -m vllm.entrypoints.openai.api_server \
      --model results/sft_model \
-     --tensor-parallel-size 8 & echo $! > pid.txt
+     --tensor-parallel-size 8 > vllm.log 2>&1 &
+sleep 3m
 python inference.py
-kill $(cat pid.txt)
+pkill -9 -e -f vllm
 ```
 
 ## 📖 Input

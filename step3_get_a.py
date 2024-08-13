@@ -19,6 +19,18 @@ class ContextQA(dspy.Signature):
     question = dspy.InputField(desc="问题")
     answer = dspy.OutputField(desc="你的答案")
 
+# For English version:
+# class ContextQA(dspy.Signature):
+#     """Given a contextual reference and a question, to return the answer, you must follow the following principles.
+# Principles
+# 1. You must use contextual references to answer questions accurately and without error.
+# 2. When answering, it is necessary to imitate the way humans answer questions.
+# 3. Please do not provide answers that violate ethics.
+#     """
+#     context = dspy.InputField(desc="Context reference")
+#     question = dspy.InputField(desc="question")
+#     answer = dspy.OutputField(desc="Your answer")
+
 
 class GetAModule(dspy.Module):
     def __init__(self):
@@ -52,27 +64,31 @@ def get_a(train_set, q_dataset):
                                         question=data['question']).with_inputs("context", "question"))
     q_dataset = new_all_set
 
-    def gold_metric(example, pred, trace=None):  # 让模型self-evaluate自己的输出来优化few-shot examples
+    def gold_metric(example, pred, trace=None):  # Let the model self-evaluate its own output to optimize few shot examples
 
         prompt = f"""根据相关上下文和参考答案，确定另一个新预测的答案是否准确回答了问题，返回是或否。
 [相关上下文]: {example.context}
 [问题]: {example.question}
-[参考]: {example.answer}
+[参考答案]: {example.answer}
 [预测答案]: {pred.answer}
 [是/否]: """
-        print('PROMPT: \n\n\n', prompt)
 
-        print("END_PROMPT\n\n\n")
+
+# For English version: 
+#         prompt = f"""Determine whether another newly predicted answer accurately answered the question based on the context reference and reference answer, and return yes or no.
+# [Context Reference]: {example.context}
+# [Question]: {example.question}
+# [Reference Answer]: {example.answer}
+# [Predicted Answer]: {pred.answer}
+# [yes/no]: """
 
         score = get_response(prompt)
         score = score.strip()
         print('SCORE: ', score)
         print('END')
-        if '是' in score.lower():
-            print('\n\n\n\n\n True')
+        if '是' in score.lower() or 'yes' in score.lower():
             return True
-        if '否' in score.lower():
-            print('\n\n\n\n\n False')
+        if '否' in score.lower() or 'no' in score.lower():
             return False
         assert False
 
@@ -117,7 +133,7 @@ if __name__ == '__main__':
         "question": [],
         "answer": []
     }
-    with open('qa_examples.jsonl', 'r', encoding='utf-8') as f:
+    with open('qa_examples_zh.jsonl', 'r', encoding='utf-8') as f:
         for line in f:
             data = json.loads(line)
             train_set["context"].append(data['context'])
