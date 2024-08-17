@@ -8,6 +8,20 @@ from api_client import get_response
 import config
 
 
+# For English version:
+class ContextQA_en(dspy.Signature):
+    """Given a contextual reference and a question, to return the answer, you must follow the following principles.
+Principles
+1. You must use contextual references to answer questions accurately and without error.
+2. When answering, it is necessary to imitate the way humans answer questions.
+3. Please do not provide answers that violate ethics.
+    """
+    context = dspy.InputField(desc="Context reference")
+    question = dspy.InputField(desc="question")
+    answer = dspy.OutputField(desc="Your answer")
+
+
+# For Chinese version:
 class ContextQA(dspy.Signature):
     """给定一个上下文参考和一个问题，返回答案，你必须遵循以下原则。
 原则
@@ -18,18 +32,6 @@ class ContextQA(dspy.Signature):
     context = dspy.InputField(desc="上下文参考")
     question = dspy.InputField(desc="问题")
     answer = dspy.OutputField(desc="你的答案")
-
-# For English version:
-# class ContextQA(dspy.Signature):
-#     """Given a contextual reference and a question, to return the answer, you must follow the following principles.
-# Principles
-# 1. You must use contextual references to answer questions accurately and without error.
-# 2. When answering, it is necessary to imitate the way humans answer questions.
-# 3. Please do not provide answers that violate ethics.
-#     """
-#     context = dspy.InputField(desc="Context reference")
-#     question = dspy.InputField(desc="question")
-#     answer = dspy.OutputField(desc="Your answer")
 
 
 class GetAModule(dspy.Module):
@@ -66,21 +68,21 @@ def get_a(train_set, q_dataset):
 
     def gold_metric(example, pred, trace=None):  # Let the model self-evaluate its own output to optimize few shot examples
 
+# For English version: 
+        prompt = f"""Determine whether another newly predicted answer accurately answered the question based on the context reference and reference answer, and return yes or no.
+[Context Reference]: {example.context}
+[Question]: {example.question}
+[Reference Answer]: {example.answer}
+[Predicted Answer]: {pred.answer}
+[yes/no]: """
+
+# For Chinese version: 
         prompt = f"""根据相关上下文和参考答案，确定另一个新预测的答案是否准确回答了问题，返回是或否。
 [相关上下文]: {example.context}
 [问题]: {example.question}
 [参考答案]: {example.answer}
 [预测答案]: {pred.answer}
 [是/否]: """
-
-
-# For English version: 
-#         prompt = f"""Determine whether another newly predicted answer accurately answered the question based on the context reference and reference answer, and return yes or no.
-# [Context Reference]: {example.context}
-# [Question]: {example.question}
-# [Reference Answer]: {example.answer}
-# [Predicted Answer]: {pred.answer}
-# [yes/no]: """
 
         score = get_response(prompt)
         score = score.strip()
